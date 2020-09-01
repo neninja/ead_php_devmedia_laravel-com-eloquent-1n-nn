@@ -1,0 +1,1 @@
+composer create-project --prefer-dist laravel/laravel ead_php_devmedia_laravel-com-eloquent-1n
