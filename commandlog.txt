@@ -1,1 +1,8 @@
 composer create-project --prefer-dist laravel/laravel ead_php_devmedia_laravel-com-eloquent-1n
+createdb -U postgres ead_php_devmedia_laravel-com-eloquent-1n
+psql -U postgres -d ead_php_devmedia_laravel-com-eloquent-1n
+php artisan make:model --help
+php artisan make:model Marca -a
+php artisan make:model Produto -a
+php artisan migrate
+php artisan serve
