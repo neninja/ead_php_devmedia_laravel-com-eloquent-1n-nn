@@ -6,3 +6,5 @@ php artisan make:model Marca -a
 php artisan make:model Produto -a
 php artisan migrate
 php artisan serve
+php artisan make:migration relacionar_marca_produto
+php artisan migrate
