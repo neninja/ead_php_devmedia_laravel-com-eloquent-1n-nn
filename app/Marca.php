@@ -10,6 +10,7 @@ class Marca extends Model
         "nome"
     ];
 
+    // Marca possui vários produtos
     public function produtos(){
         return $this->hasMany('App\Produto', 'marca_id');
     }

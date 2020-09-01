@@ -10,6 +10,7 @@ class Produto extends Model
         "descricao", "preco", "cor", "peso", "marca_id"
     ];
 
+    // Produto pertence a uma marca
     public function marca(){
         return $this->belongsTo('App\Marca', 'marca_id');
     }
