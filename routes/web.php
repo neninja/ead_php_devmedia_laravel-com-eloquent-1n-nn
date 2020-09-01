@@ -17,5 +17,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/produtos/remove/{id}', 'ProdutoController@remover')->name('produtos.remove');
 Route::resource('produtos', 'ProdutoController');
+
+Route::get('/marcas/produtos/{id}', 'MarcaController@produtos')->name('marcas.produtos');
+Route::get('/marcas/remove/{id}', 'MarcaController@remover')->name('marcas.remove');
 Route::resource('marcas', 'MarcaController');
