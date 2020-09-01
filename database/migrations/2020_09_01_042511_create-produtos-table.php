@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class RelacionarMarcaProduto extends Migration
+class CreateProdutosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,15 @@ class RelacionarMarcaProduto extends Migration
      */
     public function up()
     {
-        Schema::table('produtos', function(Blueprint $table){
-            $table->integer('marca_id')->unsigned(); // não pod ser nulo
+        Schema::create('produtos', function (Blueprint $table) {
+            $table->id();
+            $table->string('descricao');
+            $table->float('preco');
+            $table->string('cor');
+            $table->float('peso');
+            $table->integer('marca_id')->unsigned();
             $table->foreign('marca_id')->references('id')->on('marcas');
+            $table->timestamps();
         });
     }
 
@@ -26,9 +32,6 @@ class RelacionarMarcaProduto extends Migration
      */
     public function down()
     {
-        Schema::table('produtos', function(Blueprint $table){
-            $table->dropForeign('produtos_marca_id_foreign');
-            $table->dropColumn('marca_id');
-        });
+        Schema::dropIfExists('produtos');
     }
 }

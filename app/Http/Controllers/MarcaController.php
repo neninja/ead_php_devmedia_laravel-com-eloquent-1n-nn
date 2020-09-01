@@ -35,7 +35,7 @@ class MarcaController extends Controller
 
         if($buscar){
             $marcas = Marca::where('nome','=', $buscar)->paginate($qtd);
-        }else{
+        }else{  
             $marcas = Marca::paginate($qtd);
 
         }
@@ -81,7 +81,7 @@ class MarcaController extends Controller
     public function show($id)
     {
         $marca = Marca::find($id);
-
+        
         return view('marcas.show', compact('marca'));
     }
 
@@ -94,7 +94,7 @@ class MarcaController extends Controller
     public function edit($id)
     {
         $marca = Marca::find($id);
-
+        
         return view('marcas.edit', compact('marca'));
     }
 
@@ -108,7 +108,7 @@ class MarcaController extends Controller
     public function update(Request $request, $id)
     {
         $validator = $this->validarMarca($request);
-
+        
         if($validator->fails()){
             return redirect()->back()->withErrors($validator->errors());
         }
@@ -116,7 +116,7 @@ class MarcaController extends Controller
         $marca = Marca::find($id);
         $dados = $request->all();
         $marca->update($dados);
-
+        
         return redirect()->route('marcas.index');
     }
 
@@ -127,7 +127,7 @@ class MarcaController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
-    {
+    {      
         if(Produto::where('marca_id', '=', $id)->count()){
             $msg = "Não é possível excluir esta marca. Os produtos com id ( ";
             $produtos = Produto::where('marca_id', '=', $id)->get();
@@ -139,13 +139,13 @@ class MarcaController extends Controller
             \Session::flash('mensagem', ['msg'=>$msg]);
             return redirect()->route('marcas.remove', $id);
         }
-
+        
         Marca::find($id)->delete();
         return redirect()->route('marcas.index');
     }
 
     public function remover($id)
-    {
+    {    
         $marca = Marca::find($id);
         return view('marcas.remove', compact('marca'));
     }

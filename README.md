@@ -1,8 +1,8 @@
-# ead_php_devmedia_laravel-com-eloquent-1n
+# ead_php_devmedia_laravel-com-eloquent-1n-nn
 
-CRUD de marcas e produtos (relação 1:n) com laravel.
+CRUD de marcas, produtos e categorias (relação 1:n e n:n) com laravel.
 
-> Projeto referente a [este](https://www.devmedia.com.br/curso/laravel-e-eloquent-orm-mapeando-um-relacionamento-do-tipo-1-n/2085) curso.
+> Projeto referente a [este](https://www.devmedia.com.br/curso/laravel-e-eloquent-orm-mapeando-um-relacionamento-do-tipo-1-n/2085) e [este](https://www.devmedia.com.br/curso/laravel-e-eloquent-orm-mapeando-um-relacionamento-do-tipo-n-n/2107) curso.
 
 ## Setup
 
@@ -25,11 +25,11 @@ php -r "var_dump([
 4. Crie o banco de dados
 ```sh
 # exemplo com postgresql
-createdb -U postgres ead_php_devmedia_laravel-com-eloquent-1n
+createdb -U postgres ead_php_devmedia_laravel-com-eloquent-1n-nn
 
 # dicas do postgresql no terminal
 # Entrar
-psql -U postgres -d ead_php_devmedia_laravel-com-eloquent-1n
+psql -U postgres -d ead_php_devmedia_laravel-com-eloquent-1n-nn
 
 # \?                    exibe ajuda
 # \q                    sai

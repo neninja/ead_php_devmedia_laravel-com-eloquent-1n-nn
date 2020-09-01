@@ -32,6 +32,7 @@
                     <ul class="nav navbar-nav">
                         <li><a href="{{route('marcas.index')}}">Marcas</a></li>
                         <li><a href="{{route('produtos.index')}}">Produtos</a></li>
+                        <li><a href="{{route('categorias.index')}}">Categorias</a></li>
                     </ul>
                 </div>
             </div>

@@ -12,6 +12,12 @@
 						<p>Cor: {{$produto->cor}}</p>
 						<p>Peso: {{$produto->peso}}</p>
 						<p>Marca: {{$produto->marca->nome}}</p>
+                        <p>Categorias: 
+                            @foreach($produto->categorias as $categoria)                                
+                                    <a href="{{route('categorias.show', $categoria->id)}}">
+                                    {{$categoria->descricao}}</a>                                                         
+                            @endforeach 
+                        </p>
                 </div>
             </div>
         </div>

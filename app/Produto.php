@@ -15,4 +15,8 @@ class Produto extends Model
         return $this->belongsTo('App\Marca', 'marca_id');
     }
 
+    // Produto pertence e possui categorias
+    public function categorias(){
+        return $this->belongsToMany('App\Categoria', 'categoria_produto');
+    }
 }

@@ -51,7 +51,17 @@
                 <option value="{{$marca->id}}">{{$marca->nome}}</option>            
             @endforeach
             </select>
-        </div>     
+        </div>  
+        <h4>Categorias</h4>
+        <hr>
+        <div class="form-group">
+            <label for="categoria_id">Selecione as categorias deste produto</label>
+            <select multiple class="form-control" name="categoria_id[]" required>
+            @foreach($categorias as $categoria)            
+                <option value="{{$categoria->id}}">{{$categoria->descricao}}</option>            
+            @endforeach
+            </select>
+        </div>   
         <a href="{{ url()->previous() }}" class="btn btn-default">Voltar</a>
         <button type="submit" class="btn btn-primary">Cadastrar</button>
     </form>

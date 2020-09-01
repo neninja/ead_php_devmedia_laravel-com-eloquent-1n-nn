@@ -3,23 +3,18 @@
 namespace App\Http\Controllers;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Http\Request;
-use App\Produto;
-use App\Marca;
-use App\Categoria;
+use App\categoria;
 use Validator;
+use App\Produto;
+use Illuminate\Support\Facades\DB;
 
 
-class ProdutoController extends Controller
+class CategoriaController extends Controller
 {
 
-    protected function validarProduto($request){
+    protected function validarCategoria($request){
         $validator = Validator::make($request->all(), [
-            "descricao" => "required",
-            "preco"=> "required | numeric",
-            "cor" => "required",
-            "peso" => "required | numeric",
-            "marca_id" => "required | numeric",
-            "categoria_id" => "required",
+            "descricao" => "required"
         ]);
         return $validator;
     }
@@ -40,13 +35,13 @@ class ProdutoController extends Controller
         });
 
         if($buscar){
-            $produtos = Produto::where('descricao','=', $buscar)->paginate($qtd);
+            $categorias = Categoria::where('descricao','=', $buscar)->paginate($qtd);
         }else{  
-            $produtos = Produto::paginate($qtd);
+            $categorias = Categoria::paginate($qtd);
 
         }
-        $produtos = $produtos->appends(Request::capture()->except('page'));
-        return view('produtos.index', compact('produtos'));
+        $categorias = $categorias->appends(Request::capture()->except('page'));
+        return view('categorias.index', compact('categorias'));
     }
 
     /**
@@ -56,9 +51,8 @@ class ProdutoController extends Controller
      */
     public function create()
     {
-        $marcas = Marca::all();
         $categorias = Categoria::all();
-        return view('produtos.create', compact('marcas', 'categorias'));
+        return view('categorias.create', compact('categorias'));
     }
 
     /**
@@ -69,15 +63,14 @@ class ProdutoController extends Controller
      */
     public function store(Request $request)
     {
-        $validator = $this->validarProduto($request);
+        $validator = $this->validarCategoria($request);
         if($validator->fails()){
             return redirect()->back()->withErrors($validator->errors());
         }
         $dados = $request->all();
-        $produto = Produto::create($dados);
-        $produto = Produto::find($produto->id);
-        $produto->categorias()->attach($dados['categoria_id']);
-        return redirect()->route('produtos.index');
+        Categoria::create($dados);
+
+        return redirect()->route('categorias.index');
     }
 
     /**
@@ -88,9 +81,9 @@ class ProdutoController extends Controller
      */
     public function show($id)
     {
-        $produto = Produto::find($id);
+        $categoria = Categoria::find($id);
         
-        return view('produtos.show', compact('produto'));
+        return view('categorias.show', compact('categoria'));
     }
 
     /**
@@ -101,11 +94,9 @@ class ProdutoController extends Controller
      */
     public function edit($id)
     {
-        $produto = Produto::find($id);
-        $marcas = Marca::all();        
-        $categorias = Categoria::all();
-
-        return view('produtos.edit', compact('produto', 'marcas', 'categorias'));
+        $categoria = Categoria::find($id);
+        
+        return view('categorias.edit', compact('categoria'));
     }
 
     /**
@@ -117,19 +108,17 @@ class ProdutoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $validator = $this->validarProduto($request);
+        $validator = $this->validarCategoria($request);
         
         if($validator->fails()){
             return redirect()->back()->withErrors($validator->errors());
         }
 
-        $produto = Produto::find($id);
+        $categoria = Categoria::find($id);
         $dados = $request->all();
-        $produto->update($dados);
-
-        $produto->categorias()->sync($dados['categoria_id']);
+        $categoria->update($dados);
         
-        return redirect()->route('produtos.index');
+        return redirect()->route('categorias.index');
     }
 
     /**
@@ -139,15 +128,32 @@ class ProdutoController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
-    {
-        Produto::find($id)->delete();
-        return redirect()->route('produtos.index');
+    {        
+        if(DB::table('categoria_produto')->where('categoria_id', $id)->count()){
+            $msg = "Não é possível excluir esta categoria. Os produtos com id ( ";
+            $produtos = DB::table('categoria_produto')->where('categoria_id', $id)->get();
+            foreach($produtos as $produto){
+                $msg .= $produto->produto_id." ";
+            }
+            $msg .= " ) estão relacionados com esta categoria";
+            \Session::flash('mensagem', ['msg'=>$msg]);
+            return redirect()->route('categorias.remove', $id);
+        }
+
+        Categoria::find($id)->delete();
+        return redirect()->route('categorias.index');
     }
 
     public function remover($id)
     {
-        $produto = Produto::find($id);
+        $categoria = Categoria::find($id);
 
-        return view('produtos.remove', compact('produto'));
+        return view('categorias.remove', compact('categoria'));
+    }
+
+    public function produtos($id)
+    {
+        $categoria = Categoria::find($id);
+        return view('categorias.produtos', compact('categoria'));
     }
 }

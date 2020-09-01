@@ -6,7 +6,15 @@ php artisan make:model Marca -a
 php artisan make:model Produto -a
 php artisan migrate
 php artisan serve
-php artisan make:migration relacionar_marca_produto
+php artisan make:migration relacionar-marca-produto
 php artisan migrate
 php artisan migrate:refresh
 php artisan migrate --seed
+createdb -U postgres ead_php_devmedia_laravel-com-eloquent-1n-nn
+psql -U postgres -d ead_php_devmedia_laravel-com-eloquent-1n-nn
+php artisan make:migration create-marcas-table
+php artisan make:migration create-categorias-table
+php artisan make:migration create-produtos-table
+php artisan make:migration categoria_produto
+php artisan migrate
+php artisan serve
