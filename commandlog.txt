@@ -8,3 +8,4 @@ php artisan migrate
 php artisan serve
 php artisan make:migration relacionar_marca_produto
 php artisan migrate
+php artisan migrate:refresh
